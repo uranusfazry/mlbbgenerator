@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Savage Lobby Generator - MLBB Style</title>
+    <title>Uranusfazry Savage Lobby Generator - MLBB Style</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome -->
@@ -219,7 +219,15 @@
             box-shadow: var(--preview-glow);
             transition: transform 0.4s ease, box-shadow 0.35s ease, border-color 0.3s ease;
         }
-        .preview-card:hover { border-color: var(--accent-soft); }
+        .preview-card:hover {
+            border-color: var(--accent-soft);
+            /* Efek glow pada gambar saat di-hover */
+            box-shadow: 0 0 20px var(--accent-soft), 0 0 40px var(--accent-soft);
+        }
+        /* Tambahan: Efek glow pada gambar hasil */
+        .preview-card img {
+            transition: box-shadow 0.35s ease;
+        }
 
         /* Theme Switcher */
         .theme-pill {
@@ -523,8 +531,8 @@
         </div>
 
         <!-- Footer -->
-        <p class="text-center text-xs mt-6 opacity-70 footer-text">
-            &copy; 2024 FakeML Generator. Fanmade Tool.
+        <p class="text-center text-xs mt-6 opacity-60 footer-text tracking-wider font-light">
+            &copy; 2025 Savage Lobby Generator. All Rights Reserved.
         </p>
 
     </div>
