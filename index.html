@@ -31,11 +31,16 @@
                     },
                     animation: {
                         'float': 'float 6s ease-in-out infinite',
+                        'pop-in': 'popIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                     },
                     keyframes: {
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
                             '50%': { transform: 'translateY(-10px)' },
+                        },
+                        popIn: {
+                            '0%': { opacity: '0', transform: 'scale(0.9) translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'scale(1) translateY(0)' },
                         }
                     }
                 }
@@ -51,6 +56,7 @@
             background-position: center;
             background-attachment: fixed;
             transition: background-image 0.5s ease;
+            overflow-x: hidden; /* Prevent horizontal scroll from ads */
         }
 
         /* ====== THEME VARIABLES (DEFAULT) ====== */
@@ -384,157 +390,307 @@
             text-align: center;
             white-space: nowrap;
         }
+
+        /* ADS STYLING */
+        .ad-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 10px 0;
+            overflow: hidden;
+        }
     </style>
 </head>
-<body id="body" class="text-white min-h-screen flex items-center justify-center p-4 selection:text-white theme-mlbb">
+<body id="body" class="text-white min-h-screen flex flex-col items-center justify-start p-4 selection:text-white theme-mlbb relative">
+
+    <!-- AD: Popunder (Background - One per session logic handled by network) -->
+    <script type='text/javascript' src='//lightingshovestature.com/79/1e/f4/791ef4a497873e86b2d3812db2356b53.js'></script>
+
+    <!-- AD: SocialBar (Floating) -->
+    <script type='text/javascript' src='//lightingshovestature.com/4f/3a/2f/4f3a2fe3893dba20f53c26acb93dd05d.js'></script>
 
     <!-- Overlay pattern for texture -->
     <div class="fixed inset-0 bg-black/40 z-0 transition-opacity duration-500" id="bgOverlay"></div>
 
-    <!-- Main Container -->
-    <div class="relative z-10 w-full max-w-lg md:max-w-xl lg:max-w-2xl animate-float">
+    <!-- AD: 728x90 (Leaderboard - Top) -->
+    <div class="relative z-10 ad-container w-full hidden md:flex mb-4">
+        <script type="text/javascript">
+            atOptions = {
+                'key' : '6ce0b1eb8bba7d490c9d1ecf60ef9aaf',
+                'format' : 'iframe',
+                'height' : 90,
+                'width' : 728,
+                'params' : {}
+            };
+        </script>
+        <script type="text/javascript" src="//lightingshovestature.com/6ce0b1eb8bba7d490c9d1ecf60ef9aaf/invoke.js"></script>
+    </div>
 
-        <!-- Header Decor -->
-        <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 w-28 h-[3px] bg-gradient-to-r from-transparent via-mlbb-gold to-transparent opacity-70"></div>
+    <!-- MAIN WRAPPER FOR SIDEBAR ADS AND CONTENT -->
+    <div class="relative z-10 w-full max-w-[1400px] flex justify-center items-start gap-4">
 
-        <div class="glass rounded-3xl p-6 md:p-8 shadow-2xl ring-1 ring-white/5 relative overflow-hidden transition-colors duration-500">
+        <!-- LEFT SIDEBAR AD (Visible on Desktop) -->
+        <div class="hidden lg:flex flex-col gap-4 mt-20 sticky top-20">
+            <!-- AD: 160x600 -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '1855ab1633931a9b8c443af10c1e0fa6',
+                    'format' : 'iframe',
+                    'height' : 600,
+                    'width' : 160,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//lightingshovestature.com/1855ab1633931a9b8c443af10c1e0fa6/invoke.js"></script>
+        </div>
 
-            <!-- Background Glow Effect -->
-            <div class="absolute -top-24 -right-24 w-44 h-44 bg-mlbb-purple rounded-full blur-[90px] opacity-40 pointer-events-none"></div>
-            <div class="absolute -bottom-24 -left-24 w-44 h-44 bg-mlbb-accent rounded-full blur-[90px] opacity-40 pointer-events-none"></div>
+        <!-- CENTER APP CONTENT -->
+        <div class="w-full max-w-lg md:max-w-xl lg:max-w-2xl animate-float flex flex-col items-center">
 
-            <!-- Theme Switcher -->
-            <div class="absolute top-4 right-4 z-20">
-                <div class="theme-pill px-1 py-1 flex items-center gap-1">
-                    <button class="theme-btn theme-btn-active" data-theme="mlbb" title="MLBB Mythic">
-                        <i class="fa-solid fa-star text-[0.65rem]"></i>
-                    </button>
-                    <button class="theme-btn" data-theme="neon" title="Cyber Neon">
-                        <i class="fa-solid fa-bolt text-[0.65rem]"></i>
-                    </button>
-                    <button class="theme-btn" data-theme="gold" title="Premium Gold">
-                        <i class="fa-solid fa-crown text-[0.65rem]"></i>
-                    </button>
-                    <!-- Tombol Tema Putih Baru -->
-                    <button class="theme-btn" data-theme="light" title="Lightborn (Putih)">
-                        <i class="fa-solid fa-sun text-[0.65rem]"></i>
-                    </button>
-                </div>
+            <!-- Header Decor -->
+            <div class="relative w-full">
+                 <div class="absolute -top-10 left-1/2 transform -translate-x-1/2 w-28 h-[3px] bg-gradient-to-r from-transparent via-mlbb-gold to-transparent opacity-70"></div>
             </div>
 
-            <!-- Title Section -->
-            <div class="text-center mb-8 relative mt-6">
-                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-mlbb-purple to-mlbb-accent mb-4 shadow-lg shadow-mlbb-purple/50">
-                    <i class="fa-solid fa-gamepad text-2xl text-white"></i>
-                </div>
-                <h1 class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400 tracking-tight text-glow transition-colors">
-                    Lobby Generator
-                </h1>
-                <p class="text-gray-400 text-xs md:text-sm mt-2 font-light">
-                    Create your <span class="text-mlbb-gold font-semibold">Mythic Glory</span> moment.
-                </p>
-            </div>
+            <div class="glass rounded-3xl p-6 md:p-8 shadow-2xl ring-1 ring-white/5 relative overflow-hidden transition-colors duration-500 w-full">
 
-            <!-- Input Section -->
-            <div class="space-y-5 md:space-y-6" id="inputSection">
-                
-                <!-- Custom File Input -->
-                <div class="relative group">
-                    <label class="block text-[0.65rem] md:text-xs font-semibold text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                        Hero / Skin Image
-                    </label>
-                    <div class="relative w-full h-32 md:h-36 rounded-xl upload-zone flex flex-col items-center justify-center cursor-pointer overflow-hidden" id="dropZone">
-                        
-                        <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
-                        
-                        <div class="z-10 text-center pointer-events-none transition-all duration-300" id="uploadPlaceholder">
-                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-500 mb-2 group-hover:text-mlbb-accent transition-colors"></i>
-                            <p class="text-[0.7rem] md:text-xs text-gray-400">Tap untuk upload atau drag image</p>
-                            <p class="text-[0.65rem] text-gray-500 mt-1">Rekomendasi: kualitas HD / Hero close-up</p>
-                        </div>
-                        
-                        <!-- Image Preview (Small thumb) -->
-                        <img id="previewThumb" class="absolute inset-0 w-full h-full object-cover hidden opacity-60 group-hover:opacity-40 transition-opacity blur-[2px]" />
-                        <div id="fileSelectedText" class="absolute z-10 font-semibold text-white drop-shadow-md hidden text-xs md:text-sm">
-                            <i class="fa-solid fa-check-circle text-green-400 mr-1"></i> Image Selected
-                        </div>
+                <!-- Background Glow Effect -->
+                <div class="absolute -top-24 -right-24 w-44 h-44 bg-mlbb-purple rounded-full blur-[90px] opacity-40 pointer-events-none"></div>
+                <div class="absolute -bottom-24 -left-24 w-44 h-44 bg-mlbb-accent rounded-full blur-[90px] opacity-40 pointer-events-none"></div>
+
+                <!-- Theme Switcher -->
+                <div class="absolute top-4 right-4 z-20">
+                    <div class="theme-pill px-1 py-1 flex items-center gap-1">
+                        <button class="theme-btn theme-btn-active" data-theme="mlbb" title="MLBB Mythic">
+                            <i class="fa-solid fa-star text-[0.65rem]"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="neon" title="Cyber Neon">
+                            <i class="fa-solid fa-bolt text-[0.65rem]"></i>
+                        </button>
+                        <button class="theme-btn" data-theme="gold" title="Premium Gold">
+                            <i class="fa-solid fa-crown text-[0.65rem]"></i>
+                        </button>
+                        <!-- Tombol Tema Putih Baru -->
+                        <button class="theme-btn" data-theme="light" title="Lightborn (Putih)">
+                            <i class="fa-solid fa-sun text-[0.65rem]"></i>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Username Input -->
-                <div>
-                    <label class="block text-[0.65rem] md:text-xs font-semibold text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                        In-Game Nickname
-                    </label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <i class="fa-solid fa-user-ninja text-gray-500 text-sm"></i>
+                <!-- Title Section -->
+                <div class="text-center mb-6 relative mt-6">
+                    <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-mlbb-purple to-mlbb-accent mb-4 shadow-lg shadow-mlbb-purple/50">
+                        <i class="fa-solid fa-gamepad text-2xl text-white"></i>
+                    </div>
+                    <h1 class="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-gray-200 to-gray-400 tracking-tight text-glow transition-colors">
+                        Lobby Generator
+                    </h1>
+                    <p class="text-gray-400 text-xs md:text-sm mt-2 font-light">
+                        Create your <span class="text-mlbb-gold font-semibold">Mythic Glory</span> moment.
+                    </p>
+                </div>
+
+                <!-- AD: 320x50 (Mobile Banner - Inside Card) -->
+                <div class="ad-container w-full mb-6">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '7574d95a75a39bde2baea51e12f3a2d7',
+                            'format' : 'iframe',
+                            'height' : 50,
+                            'width' : 320,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//lightingshovestature.com/7574d95a75a39bde2baea51e12f3a2d7/invoke.js"></script>
+                </div>
+
+                <!-- Input Section -->
+                <div class="space-y-5 md:space-y-6" id="inputSection">
+                    
+                    <!-- Custom File Input -->
+                    <div class="relative group">
+                        <label class="block text-[0.65rem] md:text-xs font-semibold text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
+                            Hero / Skin Image
+                        </label>
+                        <div class="relative w-full h-32 md:h-36 rounded-xl upload-zone flex flex-col items-center justify-center cursor-pointer overflow-hidden" id="dropZone">
+                            
+                            <input type="file" id="imageInput" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+                            
+                            <div class="z-10 text-center pointer-events-none transition-all duration-300" id="uploadPlaceholder">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-gray-500 mb-2 group-hover:text-mlbb-accent transition-colors"></i>
+                                <p class="text-[0.7rem] md:text-xs text-gray-400">Tap untuk upload atau drag image</p>
+                                <p class="text-[0.65rem] text-gray-500 mt-1">Rekomendasi: kualitas HD / Hero close-up</p>
+                            </div>
+                            
+                            <!-- Image Preview (Small thumb) -->
+                            <img id="previewThumb" class="absolute inset-0 w-full h-full object-cover hidden opacity-60 group-hover:opacity-40 transition-opacity blur-[2px]" />
+                            <div id="fileSelectedText" class="absolute z-10 font-semibold text-white drop-shadow-md hidden text-xs md:text-sm">
+                                <i class="fa-solid fa-check-circle text-green-400 mr-1"></i> Image Selected
+                            </div>
                         </div>
-                        <input 
-                            type="text" 
-                            id="username" 
-                            placeholder="Ex: Lemon"
-                            class="w-full pl-10 pr-4 py-3 bg-black/30 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-white placeholder-gray-500 transition-all font-medium text-sm shadow-inner"
+                    </div>
+
+                    <!-- Username Input -->
+                    <div>
+                        <label class="block text-[0.65rem] md:text-xs font-semibold text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
+                            In-Game Nickname
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fa-solid fa-user-ninja text-gray-500 text-sm"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                placeholder="Ex: Lemon"
+                                class="w-full pl-10 pr-4 py-3 bg-black/30 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--accent)] focus:border-transparent text-white placeholder-gray-500 transition-all font-medium text-sm shadow-inner"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button 
+                        id="generateBtn" 
+                        class="w-full relative overflow-hidden group primary-btn text-white font-bold py-3.5 md:py-4 rounded-xl flex items-center justify-center mt-2 text-sm md:text-base"
+                    >
+                        <span class="absolute right-0 w-8 h-32 -mt-10 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease-linear"></span>
+                        <span class="relative flex items-center justify-center gap-2 tracking-wide">
+                            <i class="fa-solid fa-bolt text-sm"></i> 
+                            GENERATE LOBBY
+                        </span>
+                    </button>
+
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading" class="hidden mt-8 text-center">
+                    <div class="relative w-16 h-16 mx-auto mb-4">
+                        <div class="absolute inset-0 rounded-full border-4 border-gray-700"></div>
+                        <div class="absolute inset-0 rounded-full border-4 border-t-mlbb-gold border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+                    </div>
+                    <p class="text-sm text-gray-300 animate-pulse">Rendering assets...</p>
+                </div>
+
+                <!-- Result Section -->
+                <div id="resultContainer" class="hidden mt-8 space-y-4 md:space-y-5">
+                    <div class="relative rounded-xl overflow-hidden shadow-2xl preview-card group">
+                        <img id="resultImg" class="w-full h-auto object-cover transform transition-transform duration-700" alt="Result">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between px-4 pb-3">
+                            <span class="text-[0.65rem] text-white/70 font-light">Preview Mode</span>
+                            <span class="text-[0.65rem] text-[var(--accent-gold)] font-semibold tracking-wide uppercase">FakeML Render</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <button 
+                            id="downloadBtn" 
+                            class="w-full secondary-btn font-semibold py-3 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2 text-sm"
                         >
+                            <i class="fa-solid fa-download text-sm"></i> Save Image
+                        </button>
+                        <button 
+                            id="resetBtn" 
+                            class="w-full secondary-btn font-semibold py-3 rounded-xl shadow border transition-colors flex items-center justify-center gap-2 text-sm"
+                        >
+                            <i class="fa-solid fa-rotate-right text-sm"></i> Buat Lagi
+                        </button>
                     </div>
                 </div>
 
-                <!-- Generate Button -->
-                <button 
-                    id="generateBtn" 
-                    class="w-full relative overflow-hidden group primary-btn text-white font-bold py-3.5 md:py-4 rounded-xl flex items-center justify-center mt-2 text-sm md:text-base"
-                >
-                    <span class="absolute right-0 w-8 h-32 -mt-10 transition-all duration-1000 transform translate-x-12 bg-white opacity-10 rotate-12 group-hover:-translate-x-40 ease-linear"></span>
-                    <span class="relative flex items-center justify-center gap-2 tracking-wide">
-                        <i class="fa-solid fa-bolt text-sm"></i> 
-                        GENERATE LOBBY
-                    </span>
-                </button>
+                <!-- AD: 300x250 (Rectangle - Bottom of Card) -->
+                <div class="ad-container w-full mt-6">
+                    <script type="text/javascript">
+                        atOptions = {
+                            'key' : '44951c9493c38d9990075a5ab96660df',
+                            'format' : 'iframe',
+                            'height' : 250,
+                            'width' : 300,
+                            'params' : {}
+                        };
+                    </script>
+                    <script type="text/javascript" src="//lightingshovestature.com/44951c9493c38d9990075a5ab96660df/invoke.js"></script>
+                </div>
 
             </div>
 
-            <!-- Loading State -->
-            <div id="loading" class="hidden mt-8 text-center">
-                <div class="relative w-16 h-16 mx-auto mb-4">
-                    <div class="absolute inset-0 rounded-full border-4 border-gray-700"></div>
-                    <div class="absolute inset-0 rounded-full border-4 border-t-mlbb-gold border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
-                </div>
-                <p class="text-sm text-gray-300 animate-pulse">Rendering assets...</p>
+            <!-- AD: Native Banner (Below Main Card) -->
+            <div class="w-full mt-6 glass rounded-xl p-4">
+                <p class="text-[0.6rem] text-gray-500 mb-2 uppercase tracking-widest text-center">Sponsored</p>
+                <script async="async" data-cfasync="false" src="//lightingshovestature.com/db33b8ee0d695b72baa39eda0809ff92/invoke.js"></script>
+                <div id="container-db33b8ee0d695b72baa39eda0809ff92"></div>
             </div>
 
-            <!-- Result Section -->
-            <div id="resultContainer" class="hidden mt-8 space-y-4 md:space-y-5">
-                <div class="relative rounded-xl overflow-hidden shadow-2xl preview-card group">
-                    <img id="resultImg" class="w-full h-auto object-cover transform transition-transform duration-700" alt="Result">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-between px-4 pb-3">
-                        <span class="text-[0.65rem] text-white/70 font-light">Preview Mode</span>
-                        <span class="text-[0.65rem] text-[var(--accent-gold)] font-semibold tracking-wide uppercase">FakeML Render</span>
-                    </div>
-                </div>
+            <!-- Footer -->
+            <p class="text-center text-xs mt-6 opacity-60 footer-text tracking-wider font-light pb-20">
+                &copy; 2025 Savage Lobby Generator. All Rights Reserved.
+            </p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <button 
-                        id="downloadBtn" 
-                        class="w-full secondary-btn font-semibold py-3 rounded-xl shadow-lg transition-colors flex items-center justify-center gap-2 text-sm"
-                    >
-                        <i class="fa-solid fa-download text-sm"></i> Save Image
-                    </button>
-                    <button 
-                        id="resetBtn" 
-                        class="w-full secondary-btn font-semibold py-3 rounded-xl shadow border transition-colors flex items-center justify-center gap-2 text-sm"
-                    >
-                        <i class="fa-solid fa-rotate-right text-sm"></i> Buat Lagi
-                    </button>
-                </div>
+            <!-- AD: 468x60 (Bottom) -->
+            <div class="ad-container w-full mt-2">
+                <script type="text/javascript">
+                    atOptions = {
+                        'key' : '0e5b73a53921e1a77b16bf523958c57b',
+                        'format' : 'iframe',
+                        'height' : 60,
+                        'width' : 468,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//lightingshovestature.com/0e5b73a53921e1a77b16bf523958c57b/invoke.js"></script>
             </div>
 
         </div>
 
-        <!-- Footer -->
-        <p class="text-center text-xs mt-6 opacity-60 footer-text tracking-wider font-light">
-            &copy; 2025 Savage Lobby Generator. All Rights Reserved.
-        </p>
+        <!-- RIGHT SIDEBAR ADS (Visible on Desktop) -->
+        <div class="hidden lg:flex flex-col gap-4 mt-20 sticky top-20">
+            <!-- AD: 160x300 -->
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '9ac8c04fc4b0a405ca5e227af687948c',
+                    'format' : 'iframe',
+                    'height' : 300,
+                    'width' : 160,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//lightingshovestature.com/9ac8c04fc4b0a405ca5e227af687948c/invoke.js"></script>
+        </div>
 
+    </div>
+
+    <!-- ============================================= -->
+    <!-- CUSTOM FULLSCREEN INTERSTITIAL AD OVERLAY -->
+    <!-- ============================================= -->
+    <div id="interstitial-overlay" class="fixed inset-0 z-[100] hidden flex items-center justify-center transition-opacity duration-300 opacity-0">
+        <!-- Backdrop Blur -->
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        
+        <!-- Ad Container -->
+        <div class="relative bg-gray-900 border border-white/10 rounded-2xl shadow-2xl p-4 flex flex-col items-center animate-pop-in max-w-[90%] md:max-w-md">
+            
+            <!-- Close Button (Absolute Top Right) -->
+            <button id="interstitial-close" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transition-transform hover:scale-110 z-50">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            
+            <!-- Ad Label -->
+            <div class="text-[0.6rem] text-gray-400 uppercase tracking-widest mb-3">Advertisement</div>
+            
+            <!-- Interstitial Content (Using 300x250 slot as placeholder for large popup) -->
+            <div class="bg-black/50 rounded-lg overflow-hidden">
+                 <script type="text/javascript">
+                    atOptions = {
+                        'key' : '44951c9493c38d9990075a5ab96660df',
+                        'format' : 'iframe',
+                        'height' : 250,
+                        'width' : 300,
+                        'params' : {}
+                    };
+                </script>
+                <script type="text/javascript" src="//lightingshovestature.com/44951c9493c38d9990075a5ab96660df/invoke.js"></script>
+            </div>
+            
+        </div>
     </div>
 
 <script>
@@ -699,6 +855,42 @@
         resultImg.src = "";
         document.querySelector('.glass').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+
+    // ===================================
+    // INTERSTITIAL AD LOGIC
+    // ===================================
+    document.addEventListener('DOMContentLoaded', () => {
+        const interstitial = document.getElementById('interstitial-overlay');
+        const closeBtn = document.getElementById('interstitial-close');
+        
+        // Cek Session Storage
+        // Jika belum ada flag 'seen_interstitial', maka tampilkan iklan
+        const hasSeen = sessionStorage.getItem('seen_interstitial');
+
+        if (!hasSeen) {
+            // Tampilkan setelah delay 2.5 detik agar website loading dulu
+            setTimeout(() => {
+                interstitial.classList.remove('hidden');
+                // Trigger reflow untuk animasi CSS
+                requestAnimationFrame(() => {
+                    interstitial.classList.remove('opacity-0');
+                });
+            }, 2500);
+        }
+
+        closeBtn.addEventListener('click', () => {
+            // Animasi tutup
+            interstitial.classList.add('opacity-0');
+            
+            // Hapus dari DOM setelah transisi selesai & set session flag
+            setTimeout(() => {
+                interstitial.classList.add('hidden');
+                // Set flag agar tidak muncul lagi di sesi ini
+                sessionStorage.setItem('seen_interstitial', 'true');
+            }, 300);
+        });
+    });
+
 
     // ====== FUTURISTIC WATERMARK LOGIC ======
     (function() {
